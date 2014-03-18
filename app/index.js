@@ -12,7 +12,8 @@ var XploreStripeGenerator = yeoman.generators.Base.extend({
         this.on('end', function () {
             this.log(chalk.magenta('Be sure to run ') +
 					 chalk.yellow('composer install') +
-				     chalk.magenta(' from httpdocs/'));
+				     chalk.magenta(' from ') +
+					 chalk.yellow('httpdocs/'));
 
             if (!this.options['skip-install']) {
                 //this.installDependencies();
@@ -35,7 +36,7 @@ var XploreStripeGenerator = yeoman.generators.Base.extend({
         }, {
             name: 'ssVersion',
             message: 'What version of SilverStripe do you want to use?',
-			default: '*'
+			default: '3.1.3'
         }, {
             type: 'confirm',
             name: 'useVagrant',
