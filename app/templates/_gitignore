@@ -1,0 +1,7 @@
+httpdocs/.htaccess
+httpdocs/assets/
+httpdocs/cms/
+httpdocs/framework
+httpdocs/mysite/_config.php
+httpdocs/vendor/<% if (useVagrant) { %>
+.vagrant/<% } %>

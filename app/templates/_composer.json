@@ -1,0 +1,13 @@
+{
+	"name": "<%= _.slugify(siteName) %>",
+	"description": "A SilverStripe site",
+	"require": {
+		"php": ">=5.3.2",
+		"silverstripe/cms": "<%= ssVersion %>",
+		"silverstripe/framework": "<%= ssVersion %>"
+	},
+	"config": {
+		"process-timeout": 600
+	},
+	"minimum-stability": "stable"
+}
