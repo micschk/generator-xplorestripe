@@ -4,7 +4,7 @@ A Yeoman generator for [SilverStripe](http://www.silverstripe.org/), designed to
 
 ## What it does
 
-SilverStripe is deployed via Composer to `httpdocs/`.  You can specify which version to install also.
+SilverStripe is deployed via Composer to `httpdocs/`.  You can also specify which version to install (default 3.1.3).
 
 Custom configuration files are created which are added to `.gitignore`.
 
