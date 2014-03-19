@@ -4,19 +4,34 @@ var path = require('path');
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var git = require('simple-git')();
+var fs = require('fs');
 
 var XploreStripeGenerator = yeoman.generators.Base.extend({
 	init: function () {
         this.pkg = require('../package.json');
 
         this.on('end', function () {
-            this.log(chalk.magenta('Be sure to run ') +
-					 chalk.yellow('composer install') +
-				     chalk.magenta(' from ') +
-					 chalk.yellow('httpdocs/'));
+            this.log(chalk.magenta('Installing dependencies'));
 
             if (!this.options['skip-install']) {
-                //this.installDependencies();
+				var baseDir = process.cwd(),
+					themeDir = baseDir + '/httpdocs/themes/' + this.themeName + '/';
+
+				// Run composer
+				process.chdir(baseDir + '/httpdocs');
+				this.runInstall('composer');
+
+				// Theme bower install
+				if (fs.existsSync(themeDir + 'bower.json')) {
+					process.chdir(themeDir);
+					this.runInstall('bower');
+				}
+
+				// Theme node install
+				if (fs.existsSync(themeDir + 'package.json')) {
+					process.chdir(themeDir);
+					this.runInstall('npm');
+				}
             }
         });
     },
@@ -32,7 +47,8 @@ var XploreStripeGenerator = yeoman.generators.Base.extend({
 
 		var prompts = [{
             name: 'siteName',
-            message: 'What\'s your site name?'
+            message: 'What\'s your site name?',
+			default: 'My Site'
         }, {
             name: 'ssVersion',
             message: 'What version of SilverStripe do you want to use?',
@@ -42,12 +58,19 @@ var XploreStripeGenerator = yeoman.generators.Base.extend({
             name: 'useVagrant',
             message: 'Do you want to use Vagrant?',
             default: true
-        }];
+        }, {
+			type: 'confirm',
+			name: 'customTheme',
+			message: 'Do you want to install a custom theme?',
+			default: true
+		}];
 
         this.prompt(prompts, function (props) {
             this.siteName = props.siteName;
             this.ssVersion = props.ssVersion;
             this.useVagrant = props.useVagrant;
+			this.customTheme = props.customTheme;
+			this.themeName = 'simple';
 
             done();
         }.bind(this));
@@ -73,13 +96,45 @@ var XploreStripeGenerator = yeoman.generators.Base.extend({
         }.bind(this));
     },
 
+	askTheme: function () {
+		if (!this.customTheme) {
+			return;
+		}
+
+		var done = this.async();
+
+		var prompts = [{
+			name: 'themeName',
+			message: 'Name for your theme',
+			default: this.siteName
+		}, {
+			name: 'themeUser',
+			message: 'Theme GitHub user',
+			default: 'xplorenet'
+		}, {
+			name: 'themeRepo',
+			message: 'Theme GitHub repository',
+			default: 'bootstripe'
+		}]
+
+		this.prompt(prompts, function (props) {
+			this.themeName = this._.slugify(props.themeName);
+			this.themeUser = props.themeUser;
+			this.themeRepo = props.themeRepo;
+
+			done();
+		}.bind(this));
+	},
+
 	app: function () {
 		this.directory('httpdocs', 'httpdocs');
 
 		this.mkdir('httpdocs/assets/Uploads');
+		this.mkdir('httpdocs/mysite/_config');
 		this.mkdir('httpdocs/themes');
 
 		this.template('_composer.json', 'httpdocs/composer.json');
+		this.template('_config.yml', 'httpdocs/mysite/_config/config.yml');
 	},
 
 	projectFiles: function () {
@@ -98,6 +153,28 @@ var XploreStripeGenerator = yeoman.generators.Base.extend({
         this.template('_Vagrantfile', 'Vagrantfile');
         this.directory('puppet', 'puppet');
     },
+
+	themeFiles: function () {
+		if (!this.customTheme) {
+			return;
+		}
+
+		var done = this.async(),
+			me = this,
+			dest = 'httpdocs/themes/' + this.themeName;
+
+		me.log(chalk.magenta('Cloning theme repository'));
+		this.remote(this.themeUser, this.themeRepo, function (err, remote) {
+			if (err) {
+				me.log(chalk.red(err));
+				return done();
+			}
+
+			remote.directory('.', dest);
+
+			done();
+		});
+	}
 });
 
 module.exports = XploreStripeGenerator;
