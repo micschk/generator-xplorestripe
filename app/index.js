@@ -11,27 +11,13 @@ var XploreStripeGenerator = yeoman.generators.Base.extend({
         this.pkg = require('../package.json');
 
         this.on('end', function () {
-            this.log(chalk.magenta('Installing dependencies'));
-
             if (!this.options['skip-install']) {
-				var baseDir = process.cwd(),
-					themeDir = baseDir + '/httpdocs/themes/' + this.themeName + '/';
+				this.log(chalk.magenta('Installing composer dependencies'));
+				var baseDir = process.cwd();
 
 				// Run composer
 				process.chdir(baseDir + '/httpdocs');
 				this.runInstall('composer');
-
-				// Theme bower install
-				if (fs.existsSync(themeDir + 'bower.json')) {
-					process.chdir(themeDir);
-					this.runInstall('bower');
-				}
-
-				// Theme node install
-				if (fs.existsSync(themeDir + 'package.json')) {
-					process.chdir(themeDir);
-					this.runInstall('npm');
-				}
             }
         });
     },
@@ -174,6 +160,83 @@ var XploreStripeGenerator = yeoman.generators.Base.extend({
 
 			done();
 		});
+	},
+
+	themeDependencies: function () {
+		if (!this.customTheme) {
+			return;
+		}
+
+		var done = this.async(),
+			baseDir = process.cwd(),
+			themeDir = baseDir + '/httpdocs/themes/' + this.themeName + '/',
+			waitBower = false,
+			waitNpm = false;
+
+		this.log(chalk.magenta('Installing theme dependencies'));
+
+		// Theme bower install
+		if (fs.existsSync(themeDir + 'bower.json')) {
+			waitBower = true;
+			process.chdir(themeDir);
+			this.runInstall('bower', null, null, function () {
+				waitBower = false;
+				cb();
+			});
+		}
+
+		// Theme node install
+		if (fs.existsSync(themeDir + 'package.json')) {
+			waitNpm = true;
+			process.chdir(themeDir);
+			this.runInstall('npm', null, null, function () {
+				waitNpm = false;
+				cb();
+			});
+		}
+
+		var cb = function () {
+			if (waitNpm) return;
+			if (waitBower) return;
+
+			process.chdir(baseDir);
+			done();
+		}
+	},
+
+	themeBuild: function () {
+		if (!this.customTheme) {
+			return;
+		}
+
+		this.log(chalk.magenta('Building the theme'));
+
+		var done = this.async(),
+			me = this,
+			baseDir = process.cwd(),
+			themeDir = baseDir + '/httpdocs/themes/' + this.themeName + '/';
+
+		var cb = function (err) {
+			process.chdir(baseDir);
+
+			if (err) {
+				me.log(chalk.red(err));
+			}
+
+			done();
+		};
+
+		// Grunt
+		if (fs.existsSync(themeDir + 'Gruntfile.js')) {
+			process.chdir(themeDir);
+			this.emit('gruntInstall');
+			this.spawnCommand('grunt', ['build'], cb)
+    			.on('error', cb)
+    			.on('exit', this.emit.bind(this, 'gruntInstall:end'))
+    			.on('exit', function (err) {
+					cb(err);
+    			}.bind(this));
+		}
 	}
 });
 
