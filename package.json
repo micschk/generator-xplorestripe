@@ -6,7 +6,7 @@
   "main": "app/index.js",
   "repository": "xplorenet/generator-xplorestripe",
   "author": {
-    "name": "Xplore - your web agency",
+    "name": "Xplore",
     "email": "developers@xplore.net",
     "url": "https://github.com/XploreNet"
   },
@@ -21,7 +21,7 @@
   "keywords": [
     "yeoman-generator",
     "xplore",
-    "wordpress"
+    "silverstripe"
   ],
   "dependencies": {
     "yeoman-generator": "^0.16.0",
