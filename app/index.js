@@ -112,6 +112,33 @@ var XploreStripeGenerator = yeoman.generators.Base.extend({
 		}.bind(this));
 	},
 
+	askPlugins: function () {
+		var done = this.async();
+
+		var prompts = [{
+			type: 'checkbox',
+			name: 'plugins',
+			message: 'We recommend the following SilverStripe plugins:',
+			choices: [
+				{ name: 'UserForms', value: 'userForms', checked: true },
+				{ name: 'Google Sitemaps', value: 'googleSitemaps', checked: true }
+			]
+		}];
+
+		this.prompt(prompts, function (props) {
+			var plugins = props.plugins;
+
+            function hasPlugin (plugin) {
+                return plugins.indexOf(plugin) !== -1;
+            }
+
+            this.includeUserForms = hasPlugin('userForms');
+			this.includeSitemaps = hasPlugin('googleSitemaps');
+
+			done();
+		}.bind(this));
+	},
+
 	app: function () {
 		this.directory('httpdocs', 'httpdocs');
 
