@@ -11,14 +11,13 @@ var XploreStripeGenerator = yeoman.generators.Base.extend({
         this.pkg = require('../package.json');
 
         this.on('end', function () {
-            if (!this.options['skip-install']) {
-				this.log(chalk.magenta('Installing composer dependencies'));
-				var baseDir = process.cwd();
-
-				// Run composer
-				process.chdir(baseDir + '/httpdocs');
-				this.runInstall('composer');
-            }
+			this.log(
+				chalk.magenta('Now run ') +
+				chalk.yellow('vagrant up') +
+				chalk.magenta(' then visit ') +
+				chalk.yellow('http://localhost:8080/dev/build') +
+				chalk.magenta(' to complete the SilverStripe installation')
+			);
         });
     },
 
@@ -264,6 +263,23 @@ var XploreStripeGenerator = yeoman.generators.Base.extend({
 					cb(err);
     			}.bind(this));
 		}
+	},
+
+	composerInstal: function () {
+		if (this.options['skip-install']) {
+			return;
+		}
+
+		var done = this.async(),
+			baseDir = process.cwd();
+
+		this.log(chalk.magenta('Installing composer dependencies'));
+
+		process.chdir(baseDir + '/httpdocs');
+		this.runInstall('composer', null, null, function () {
+			process.chdir(baseDir);
+			done();
+		});
 	}
 });
 
