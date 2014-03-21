@@ -14,7 +14,9 @@ The default SilverStripe admin account is `vagrant`, password `vagrant`.<% } %><
 
 ## How to use
 
-Run `vagrant up` to run a local development machine, then browse to http://localhost:8080.
+Run `vagrant up` to run a local development machine, then browse to http://localhost:8080/dev/build to let SilverStripe run the initial build.
+
+Now you can view the site at http://localhost:8080 and login at http://localhost:8080/admin.
 
 If using an Xplore VagrantBox, phpMyAdmin is available at http://localhost:8080/phpmyadmin.
 
