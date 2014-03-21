@@ -4,4 +4,6 @@ httpdocs/cms/
 httpdocs/framework
 httpdocs/mysite/_config.php
 httpdocs/vendor/<% if (useVagrant) { %>
-.vagrant/<% } %>
+.vagrant/<% } %><% if (includeUserForms) { %>
+httpdocs/userforms/<% } %><% if (includeSitemaps) { %>
+httpdocs/googlesitemaps/<% } %>
