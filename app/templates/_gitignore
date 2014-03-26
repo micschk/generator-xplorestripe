@@ -3,7 +3,8 @@ httpdocs/assets/
 httpdocs/cms/
 httpdocs/framework
 httpdocs/mysite/_config.php
-httpdocs/vendor/<% if (useVagrant) { %>
+httpdocs/vendor/
+httpdocs/html5/<% if (useVagrant) { %>
 .vagrant/<% } %><% if (includeUserForms) { %>
 httpdocs/userforms/<% } %><% if (includeSitemaps) { %>
 httpdocs/googlesitemaps/<% } %>
