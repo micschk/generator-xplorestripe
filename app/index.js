@@ -120,6 +120,7 @@ var XploreStripeGenerator = yeoman.generators.Base.extend({
         name: 'plugins',
         message: 'We recommend the following SilverStripe plugins:',
         choices: [
+          { name: 'Composer Updates', value: 'composerUpdates', checked: true },
           { name: 'UserForms', value: 'userForms', checked: true },
           { name: 'Google Sitemaps', value: 'googleSitemaps', checked: true }
         ]
@@ -133,6 +134,7 @@ var XploreStripeGenerator = yeoman.generators.Base.extend({
         return plugins.indexOf(plugin) !== -1;
       }
 
+      this.includeComposerUpdates = hasPlugin('composerUpdates');
       this.includeUserForms = hasPlugin('userForms');
       this.includeSitemaps = hasPlugin('googleSitemaps');
 

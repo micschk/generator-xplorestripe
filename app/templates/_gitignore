@@ -7,4 +7,5 @@ httpdocs/vendor/
 httpdocs/html5/<% if (useVagrant) { %>
 .vagrant/<% } %><% if (includeUserForms) { %>
 httpdocs/userforms/<% } %><% if (includeSitemaps) { %>
-httpdocs/googlesitemaps/<% } %>
+httpdocs/googlesitemaps/<% } %><% if (includeComposerUpdates) { %>
+httpdocs/composerupdates/<% } %>
