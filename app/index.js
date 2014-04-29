@@ -37,7 +37,7 @@ var XploreStripeGenerator = yeoman.generators.Base.extend({
     }, {
         name: 'ssVersion',
         message: 'What version of SilverStripe do you want to use?',
-        default: '3.1.3'
+        default: '~3.1'
     }, {
         type: 'confirm',
         name: 'useVagrant',
