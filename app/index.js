@@ -180,7 +180,7 @@ var XploreStripeGenerator = yeoman.generators.Base.extend({
         dest = 'httpdocs/themes/' + this.themeName;
 
     me.log(chalk.magenta('Cloning theme repository'));
-    this.remote(this.themeUser, this.themeRepo, function (err, remote) {
+    this.remote(this.themeUser, this.themeRepo, 'master', function (err, remote) {
       if (err) {
         me.log(chalk.red(err));
         return done();
@@ -189,7 +189,7 @@ var XploreStripeGenerator = yeoman.generators.Base.extend({
       remote.directory('.', dest);
 
       done();
-    });
+    }, true);
   },
 
   themeDependencies: function () {
@@ -269,7 +269,7 @@ var XploreStripeGenerator = yeoman.generators.Base.extend({
     }
   },
 
-  composerInstal: function () {
+  composerInstall: function () {
     if (this.options['skip-install']) {
       return;
     }
