@@ -2,7 +2,7 @@
 
 ## What it does
 
-SilverStripe is installed via Composer %> to `httpdocs/`.
+SilverStripe is installed via Composer to `httpdocs/`.
 
 Custom configuration files are created which are added to `.gitignore`.
 
