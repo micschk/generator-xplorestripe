@@ -155,6 +155,7 @@ var XploreStripeGenerator = yeoman.generators.Base.extend({
 
   projectFiles: function () {
     this.copy('editorconfig', '.editorconfig');
+    this.copy('gitattributes', '.gitattributes');
     this.copy('jshintrc', '.jshintrc');
 
     this.template('_gitignore', '.gitignore');
