@@ -4,6 +4,7 @@ httpdocs/assets/
 httpdocs/cms/
 httpdocs/framework
 httpdocs/mysite/_config.php
+httpdocs/mysite/_config/config.yml
 httpdocs/vendor/
 httpdocs/html5/<% if (useVagrant) { %>
 .vagrant/<% } %><% if (includeUserForms) { %>
