@@ -48,6 +48,14 @@ Since all of Xplore's templates are based on [BootStripe](https://github.com/Xpl
 
 By passing the number of columns the image must fill at each breakpoint, an `img` is generated with a `srcset` to suit each breakpoint, as well as a high-DPI version for each breakpoint. If a breakpoint column parameter is not passed then it defaults to the breakpoint below. If no breakpoint columns are passed they all default to `12` or full-width.
 
+### Nested Pages
+
+Two additional page types are provided: `NestedHolder` and `NestedPage`. These are designed to be used together to display a list of child pages.
+
+**They are not designed to be used as-is**. You should consider renaming or copying these page types to represent a specific data type such as a Staff List displaying a collection of Staff Profiles.
+
+Include template layouts demonstrate two techniques for displaying the nested content: either as a preview which links to the full child page, or to display the entire child page content in-line.
+
 Customisation
 -------------
 
