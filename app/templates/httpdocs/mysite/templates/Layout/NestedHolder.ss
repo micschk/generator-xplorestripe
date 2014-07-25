@@ -7,7 +7,7 @@ $Form
 <h3>Preview</h3>
 <% loop $Children %>
   <article>
-    <h4><a href="$Link">$Title</a></h4>
+    <h4><a href="$Link"><% if $MenuTitle %>$MenuTitle<% else %>$Title<% end_if %></a></h4>
     <% if $Image %>
       $RenderRetinaImage($Image.ID, 150, null, $Title)
     <% end_if %>
@@ -20,7 +20,7 @@ $Form
   <article>
     <h4>$Title</h4>
     <% if $Image %>
-    $RenderRetinaImage($Image.ID, 300, null, $Title)
+      $RenderRetinaImage($Image.ID, 300, null, $Title)
     <% end_if %>
     $Content
   </article>
