@@ -1,6 +1,6 @@
 {
   "name": "generator-xplorestripe",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "A Yeoman generator for SilverStripe",
   "license": "MIT",
   "main": "app/index.js",
