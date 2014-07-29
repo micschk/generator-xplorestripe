@@ -173,7 +173,6 @@
       $tag = sprintf('<img class="img-responsive" src="%s" srcset="%s" alt="%s" item-prop="image">',
                      $image1x->URL,
                      $srcset,
-                     $width,
                      $alt);
 
       return $tag;
